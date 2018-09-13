@@ -9,13 +9,23 @@
 
 triangle = []
 print "Input first side of trianlge: "
-triangle << Float(gets.chomp)
-print "Input second side of triangle: "
-triangle << Float(gets.chomp)
-print "Input third side of triangle: "
-triangle << Float(gets.chomp)
+triangle << gets.chomp.to_f
 
-sides_meta = triangle.inject({}) {|h,v| h.keys.include?(v) ? h[v] += 1 : h[v] = 1 ; h }
+print "Input second side of triangle: "
+triangle << gets.chomp.to_f
+
+print "Input third side of triangle: "
+triangle << gets.chomp.to_f
+
+sides_meta = triangle.inject({}) do |h,v| 
+  if h.keys.include?(v) 
+    h[v] += 1 
+  else 
+    h[v] = 1
+  end 
+  h 
+end
+
 if sides_meta.count == 1
   #Треугольник равнообедренный и равносторонний, но не прямоугольный
   puts "triange is isosceles and equal-sided, but is not right angled"
@@ -24,9 +34,8 @@ elsif sides_meta.count == 2
   puts "triangle is not right angled, but is isosceles"
 else
   c = sides_meta.keys.max
-  a = sides_meta.keys.min
-  b = sides_meta.keys.select{|i| i != c && i != a}[0]
-  
+  a, b = sides_meta.keys.min(2)
+    
   if a**2 + b**2 == c**2
     #Треугольник - прямоугольный
     puts "trianle is right angled" 

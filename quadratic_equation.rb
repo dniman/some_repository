@@ -16,22 +16,23 @@
 #
 
 print "Input a: "
-a = Integer(gets.chomp)
+a = gets.chomp.to_f
 
 print "Input b: "
-b = Integer(gets.chomp)
+b = gets.chomp.to_f
 
 print "Input c: "
-c = Integer(gets.chomp)
+c = gets.chomp.to_f
 
 d = b**2 - 4 * a * c
+sqrt_of_d = Math.sqrt(d) 
 
 if d > 0
-  x1 = (-b + Math.sqrt(d))/2*a
-  x2 = (-b - Math.sqrt(d))/2*a
+  x1 = (-b + sqrt_of_d) / 2 * a
+  x2 = (-b - sqrt_of_d) / 2 * a
   puts "d = #{d}, x1 = #{x1}, x2 = #{x2}"
 elsif d == 0
-  x = (-b)/2*a
+  x = (-b) / 2 * a
   puts "d = #{d}, x(1,2) = #{x}"
 else
   puts "d = #{d}, there are no roots"

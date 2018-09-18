@@ -13,8 +13,9 @@ puts "Input sequently product name, price per item and count: "
 outer_hash = {}
 
 while (product = gets.chomp) != "stop" do
-  inner_hash = Hash[gets.chomp.to_f, gets.chomp.to_f]
-  outer_hash[product] = inner_hash
+  price = gets.chomp.to_f
+  count = gets.chomp.to_f
+  outer_hash[product] = { price: count }
   puts "Input sequently product name, price per item and count: "
 end
 
@@ -30,9 +31,7 @@ all = 0
 
 outer_hash.each_value do |val|
   val.each do |k, v|
-    all += (k * v)
+    all += k * v
   end
 end
 puts "Summary sum of all products: #{all}"
-
-

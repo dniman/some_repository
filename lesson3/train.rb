@@ -36,14 +36,14 @@ class Train
   end
 
   def move_forward
-    unless current_station.eql?(route.stations.last)
+    unless last_station?
       current_station.departure_train(self)
       self.current_station = route.stations[next_index]
     end 
   end
 
   def move_back
-    unless current_station.eql?(route.stations.first)
+    unless first_station?
       current_station.departure_train(self)
       self.current_station = route.stations[previous_index] 
     end
@@ -55,15 +55,23 @@ class Train
   end
 
   def next_station
-    route.stations[current_index + 1]
+    route.stations[next_index]
   end
 
   def prev_station
-    route.stations[currend_index - 1]
+    route.stations[previous_index]
   end
 
   private
   attr_reader :route
+  
+  def last_station?
+    current_station.eql?(route.stations.last)
+  end
+
+  def nest_station?
+    current_station.eql?(route.stations.first)
+  end
 
   def current_index
     route.stations.find_index(current_station)

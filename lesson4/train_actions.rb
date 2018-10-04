@@ -72,16 +72,58 @@ module TrainActions
 
   def set_route_to_train_action
     lambda do
+      print "Введите номер поезда: "
+      number = gets.chomp
+      print "Введите тип поезда (1-пассажирский/2-грузовой): "
+      type = gets.chomp.to_i
+
+      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
+      train = App.trains.select do |tr| 
+        tr.number.eql?(number) && tr.is_a?(train_klass)
+      end.first
+      
+      return if App.routes.empty?
+      puts "Выберите маршрут из списка: "
+      routes_num = []
+      App.routes.each_with_index do |route,index|
+        routes_num << (index + 1)
+        puts "  #{index + 1}.#{route.stations.join('-')}"
+      end
+      print routes_num.join("/") + ": "
+      route_num = gets.chomp.to_i  
+      train.route = App.routes[route_num - 1]
     end
   end
 
   def move_train_ahead_action
     lambda do
+      print "Введите номер поезда: "
+      number = gets.chomp
+      print "Введите тип поезда (1-пассажирский/2-грузовой): "
+      type = gets.chomp.to_i
+
+      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
+      train = App.trains.select do |tr| 
+        tr.number.eql?(number) && tr.is_a?(train_klass)
+      end.first
+      
+      train.move_forward
     end
   end
 
   def move_train_back_action
     lambda do
+      print "Введите номер поезда: "
+      number = gets.chomp
+      print "Введите тип поезда (1-пассажирский/2-грузовой): "
+      type = gets.chomp.to_i
+
+      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
+      train = App.trains.select do |tr| 
+        tr.number.eql?(number) && tr.is_a?(train_klass)
+      end.first
+      
+      train.move_back      
     end
   end
 end

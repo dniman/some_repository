@@ -17,6 +17,11 @@ class Train
     @speed = value > speed ? value - speed : 0
   end
   
+  # Прицепляем вагоны
+  def add_carriage(carriage)
+    self.carriages << carriage unless speed > 0 
+  end
+
   # Отцепляем вагоны
   def delete_carriage
     carriages.delete(carriages.last) unless speed > 0

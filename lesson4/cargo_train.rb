@@ -11,7 +11,7 @@ class CargoTrain < Train
 
   # Прицепляем вагоны
   def add_carriage(carriage)
-    self.carriages << carriage if cargo_carriage?(carriage) && speed.eql?(0)
+    super if cargo_carriage?(carriage)
   end
   
   private

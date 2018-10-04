@@ -23,48 +23,66 @@ module TrainActions
 
   def add_carriage_to_train_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
-
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      carriage_klass = type.eql?(1) ? PassengerCarriage : CargoCarriage
-      train.add_carriage(carriage_klass.new) 
+      if App.trains.empty?
+        puts "Список доступных поездов: #{App.trains.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      puts "Выберите поезд из списка: "
+      nums = []
+      App.trains.each_with_index do |train, index|
+        nums << index + 1
+        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      end
+      print "#{nums.join("/")}: "
+      num = gets.chomp.to_i
+      train = App.trains[num - 1]
+      if train.is_a?(PassengerTrain)
+        train.add_carriage(PassengerCarriage.new)
+      else
+        train.add_carriage(CargoCarriage.new)
+      end
     end
   end
 
   def delete_carriage_from_train_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
-
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      train.delete_carriage if train
+      if App.trains.empty?
+        puts "Список доступных поездов: #{App.trains.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      puts "Выберите поезд из списка: "
+      nums = []
+      App.trains.each_with_index do |train, index|
+        nums << index + 1
+        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      end
+      print "#{nums.join("/")}: "
+      num = gets.chomp.to_i
+      train = App.trains[num - 1]
+      train.delete_carriage
     end
   end
 
   def show_train_carriages_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
-
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      
-      puts "Список доступных вагонов: #{train.carriages.length}" if train
+      unless App.trains.empty?
+        puts "Выберите поезд из списка: "
+        nums = []
+        App.trains.each_with_index do |train, index|
+          nums << index + 1
+          puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+        end
+        print "#{nums.join("/")}: "
+        num = gets.chomp.to_i
+        train = App.trains[num - 1]
+        puts "Количество доступных вагонов: #{train.carriages.length}"
+      else
+        puts "Список доступных поездов: #{App.trains.length}"
+      end
       print "Нажмите любую клавишу для продолжения..."
       gets
     end
@@ -72,24 +90,36 @@ module TrainActions
 
   def set_route_to_train_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
+      if App.trains.empty?
+        puts "Список доступных поездов: #{App.trains.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      if App.routes.empty?
+        puts "Список доступных маршрутов: #{App.routes.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      puts "Выберите поезд из списка: "
+      nums = []
+      App.trains.each_with_index do |train, index|
+        nums << index + 1
+        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      end
+      print "#{nums.join("/")}: "
+      num = gets.chomp.to_i
+      train = App.trains[num - 1]
 
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      
-      return if App.routes.empty?
       puts "Выберите маршрут из списка: "
       routes_num = []
       App.routes.each_with_index do |route,index|
         routes_num << (index + 1)
-        puts "  #{index + 1}.#{route.stations.join('-')}"
+        station_names = route.stations.map{|station| station.name}
+        puts "  #{index + 1}.#{station_names.join('-')}"
       end
-      print routes_num.join("/") + ": "
+      print "#{routes_num.join("/")}: "
       route_num = gets.chomp.to_i  
       train.route = App.routes[route_num - 1]
     end
@@ -97,32 +127,42 @@ module TrainActions
 
   def move_train_ahead_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
-
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      
+      if App.trains.empty?
+        puts "Список доступных поездов: #{App.trains.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      puts "Выберите поезд из списка: "
+      nums = []
+      App.trains.each_with_index do |train, index|
+        nums << index + 1
+        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      end
+      print "#{nums.join("/")}: "
+      num = gets.chomp.to_i
+      train = App.trains[num - 1]
       train.move_forward
     end
   end
 
   def move_train_back_action
     lambda do
-      print "Введите номер поезда: "
-      number = gets.chomp
-      print "Введите тип поезда (1-пассажирский/2-грузовой): "
-      type = gets.chomp.to_i
-
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      train = App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-      
+      if App.trains.empty?
+        puts "Список доступных поездов: #{App.trains.length}"
+        print "Нажмите любую клавишу для продолжения..."
+        gets
+        return
+      end
+      puts "Выберите поезд из списка: "
+      nums = []
+      App.trains.each_with_index do |train, index|
+        nums << index + 1
+        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      end
+      print "#{nums.join("/")}: "
+      num = gets.chomp.to_i
+      train = App.trains[num - 1]
       train.move_back      
     end
   end

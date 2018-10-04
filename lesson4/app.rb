@@ -17,7 +17,9 @@ class App
   @@routes = []
   
   class << self
-    
+    PASSENGER_TRAIN = 1
+    CARGO_TRAIN = 2
+
     def create_station(name)
       stations << Station.new(name)
     end
@@ -31,30 +33,16 @@ class App
     end
 
     def create_train(number, type)
-      if passenger_train?(type)
-        trains << PassengerTrain.new(number) 
-      else 
-        trains << CargoTrain.new(number)
-      end
+      trains << PassengerTrain.new(number) if type == PASSENGER_TRAIN
+      trains << CargoTrain.new(number) if type == CARGO_TRAIN
     end
   
     def trains
       @@trains
     end
   
-    def passenger_train?(num)
-      num.eql?(1)
-    end
-  
-    def select_train(number, type)
-      train_klass = App.passenger_train?(type) ? PassengerTrain : CargoTrain
-      App.trains.select do |tr| 
-        tr.number.eql?(number) && tr.is_a?(train_klass)
-      end.first
-    end
-  
-    def create_route(initial_station, finite_station)
-      routes << Route.new(get_station_by_name(initial_station), get_station_by_name(finite_station))
+    def create_route(initial_index, finite_index)
+      routes << Route.new(stations[initial_index], stations[finite_index])
     end
   
     def routes

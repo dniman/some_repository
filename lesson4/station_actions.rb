@@ -32,12 +32,12 @@ module StationActions
         num = gets.chomp.to_i
         puts "Список поездов на станции: #{App.stations[num - 1].trains.length}"
         App.stations[num - 1].trains.each do |train|
-          puts "  №#{train.number} - #{train.type}"
+          puts "  Поезд №#{train.number} - #{train.type}"
         end
       else
         puts "Список доступных станций: #{App.stations.length}"
       end
-        print "Нажмите любую клавишу для продолжения..."
+      print "Нажмите любую клавишу для продолжения..."
       gets
     end
   end

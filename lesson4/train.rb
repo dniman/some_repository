@@ -67,7 +67,7 @@ class Train
     current_station.eql?(route.stations.last)
   end
 
-  def next_station?
+  def first_station?
     current_station.eql?(route.stations.first)
   end
 

@@ -2,11 +2,9 @@ require './train'
 require './passenger_carriage'
 
 class PassengerTrain < Train
-  attr_reader :type
 
   def initialize(number)
-    super(number)
-    @type = "пассажирский"
+    super(number, "пассажирский")
   end
 
   # Прицепляем вагоны

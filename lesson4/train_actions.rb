@@ -16,7 +16,7 @@ module TrainActions
       App.trains.each do |train|
         puts "  #{train.number} - #{train.type}"
       end
-      print "Нажмите любую клавишу для продолжения..."
+      print "Нажмите Enter для продолжения..."
       gets
     end
   end
@@ -25,17 +25,15 @@ module TrainActions
     lambda do
       if App.trains.empty?
         puts "Список доступных поездов: #{App.trains.length}"
-        print "Нажмите любую клавишу для продолжения..."
+        print "Нажмите Enter для продолжения..."
         gets
         return
       end
       puts "Выберите поезд из списка: "
-      nums = []
-      App.trains.each_with_index do |train, index|
-        nums << index + 1
-        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      App.trains.each.with_index(1) do |train, index|
+        puts "  #{index}. Поезд №#{train.number} - #{train.type}"
       end
-      print "#{nums.join("/")}: "
+      print "#{(1..App.trains.length).to_a.join("/")}: "
       num = gets.chomp.to_i
       train = App.trains[num - 1]
       if train.is_a?(PassengerTrain)
@@ -50,17 +48,15 @@ module TrainActions
     lambda do
       if App.trains.empty?
         puts "Список доступных поездов: #{App.trains.length}"
-        print "Нажмите любую клавишу для продолжения..."
+        print "Нажмите Enter для продолжения..."
         gets
         return
       end
       puts "Выберите поезд из списка: "
-      nums = []
-      App.trains.each_with_index do |train, index|
-        nums << index + 1
-        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      App.trains.each.with_index(1) do |train, index|
+        puts "  #{index}. Поезд №#{train.number} - #{train.type}"
       end
-      print "#{nums.join("/")}: "
+      print "#{(1..App.trains.length).to_a.join("/")}: "
       num = gets.chomp.to_i
       train = App.trains[num - 1]
       train.delete_carriage
@@ -71,19 +67,17 @@ module TrainActions
     lambda do
       unless App.trains.empty?
         puts "Выберите поезд из списка: "
-        nums = []
-        App.trains.each_with_index do |train, index|
-          nums << index + 1
-          puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+        App.trains.each.with_index(1) do |train, index|
+          puts "  #{index}. Поезд №#{train.number} - #{train.type}"
         end
-        print "#{nums.join("/")}: "
+        print "#{(1..App.trains.length).to_a.join("/")}: "
         num = gets.chomp.to_i
         train = App.trains[num - 1]
         puts "Количество доступных вагонов: #{train.carriages.length}"
       else
         puts "Список доступных поездов: #{App.trains.length}"
       end
-      print "Нажмите любую клавишу для продолжения..."
+      print "Нажмите Enter для продолжения..."
       gets
     end
   end
@@ -98,28 +92,24 @@ module TrainActions
       end
       if App.routes.empty?
         puts "Список доступных маршрутов: #{App.routes.length}"
-        print "Нажмите любую клавишу для продолжения..."
+        print "Нажмите Enter для продолжения..."
         gets
         return
       end
       puts "Выберите поезд из списка: "
-      nums = []
-      App.trains.each_with_index do |train, index|
-        nums << index + 1
-        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      App.trains.each.with_index(1) do |train, index|
+        puts "  #{index}. Поезд №#{train.number} - #{train.type}"
       end
-      print "#{nums.join("/")}: "
+      print "#{(1..App.trains.length).to_a.join("/")}: "
       num = gets.chomp.to_i
       train = App.trains[num - 1]
 
       puts "Выберите маршрут из списка: "
-      routes_num = []
-      App.routes.each_with_index do |route,index|
-        routes_num << (index + 1)
+      App.routes.each.with_index(1) do |route,index|
         station_names = route.stations.map{|station| station.name}
-        puts "  #{index + 1}.#{station_names.join('-')}"
+        puts "  #{index}.#{station_names.join('-')}"
       end
-      print "#{routes_num.join("/")}: "
+      print "#{(1..App.routes.length).to_a.join("/")}: "
       route_num = gets.chomp.to_i  
       train.route = App.routes[route_num - 1]
     end
@@ -129,17 +119,15 @@ module TrainActions
     lambda do
       if App.trains.empty?
         puts "Список доступных поездов: #{App.trains.length}"
-        print "Нажмите любую клавишу для продолжения..."
+        print "Нажмите Enter для продолжения..."
         gets
         return
       end
       puts "Выберите поезд из списка: "
-      nums = []
-      App.trains.each_with_index do |train, index|
-        nums << index + 1
-        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      App.trains.each.with_index(1) do |train, index|
+        puts "  #{index}. Поезд №#{train.number} - #{train.type}"
       end
-      print "#{nums.join("/")}: "
+      print "#{(1..App.trains.length).to_a.join("/")}: "
       num = gets.chomp.to_i
       train = App.trains[num - 1]
       train.move_forward
@@ -150,17 +138,15 @@ module TrainActions
     lambda do
       if App.trains.empty?
         puts "Список доступных поездов: #{App.trains.length}"
-        print "Нажмите любую клавишу для продолжения..."
+        print "Нажмите Enter для продолжения..."
         gets
         return
       end
       puts "Выберите поезд из списка: "
-      nums = []
-      App.trains.each_with_index do |train, index|
-        nums << index + 1
-        puts "  #{index + 1}. Поезд №#{train.number} - #{train.type}"
+      App.trains.each.with_index(1) do |train, index|
+        puts "  #{index}. Поезд №#{train.number} - #{train.type}"
       end
-      print "#{nums.join("/")}: "
+      print "#{(1..App.trains.length).to_a.join("/")}: "
       num = gets.chomp.to_i
       train = App.trains[num - 1]
       train.move_back      

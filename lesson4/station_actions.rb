@@ -14,7 +14,7 @@ module StationActions
       App.stations.each do |station|
         puts "  #{station.name}"
       end
-      print "Нажмите любую клавишу для продолжения..."
+      print "Нажмите Enter для продолжения..."
       gets
     end
   end
@@ -23,12 +23,10 @@ module StationActions
     lambda do
       if App.stations.length > 0
         puts "Выберите станцию из списка: "
-        nums = []
-        App.stations.each_with_index do |station, index|
-          nums << index + 1
-          puts "  #{index + 1}.#{station.name}"
+        App.stations.each.with_index(1) do |station, index|
+          puts "  #{index}.#{station.name}"
         end
-        print "#{nums.join("/")}: "
+        print "#{(1..App.stations.length).to_a.join("/")}: "
         num = gets.chomp.to_i
         puts "Список поездов на станции: #{App.stations[num - 1].trains.length}"
         App.stations[num - 1].trains.each do |train|
@@ -37,7 +35,7 @@ module StationActions
       else
         puts "Список доступных станций: #{App.stations.length}"
       end
-      print "Нажмите любую клавишу для продолжения..."
+      print "Нажмите Enter для продолжения..."
       gets
     end
   end

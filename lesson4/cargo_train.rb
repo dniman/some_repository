@@ -2,11 +2,9 @@ require './train'
 require './cargo_carriage'
 
 class CargoTrain < Train
-  attr_reader :type
 
   def initialize(name)
-    super(name)
-    @type = "грузовой"
+    super(name, "грузовой")
   end
 
   # Прицепляем вагоны

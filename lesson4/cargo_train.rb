@@ -3,10 +3,6 @@ require './cargo_carriage'
 
 class CargoTrain < Train
 
-  def initialize(name)
-    super(name, "грузовой")
-  end
-
   # Прицепляем вагоны
   def add_carriage(carriage)
     super if cargo_carriage?(carriage)

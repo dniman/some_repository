@@ -3,10 +3,6 @@ require './passenger_carriage'
 
 class PassengerTrain < Train
 
-  def initialize(number)
-    super(number, "пассажирский")
-  end
-
   # Прицепляем вагоны
   def add_carriage(carriage)
     super if passenger_carriage?(carriage)

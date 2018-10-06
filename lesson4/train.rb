@@ -1,9 +1,8 @@
 class Train
-  attr_reader :number, :type, :speed, :current_station, :carriages
+  attr_reader :number, :speed, :current_station, :carriages
 
-  def initialize(number, type)
+  def initialize(number)
     @number = number
-    @type = type
     @carriages = []
     @speed = 0
   end
@@ -59,6 +58,11 @@ class Train
 
   def prev_station
     route.stations[previous_index]
+  end
+
+  def type
+    return "пассажирский" if self.is_a?(PassengerTrain)
+    return "грузовой" if self.is_a?(CargoTrain)
   end
 
   private

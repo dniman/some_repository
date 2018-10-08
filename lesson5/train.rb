@@ -7,13 +7,13 @@ class Train
 
   attr_reader :number, :speed, :current_station, :carriages
 
-  @trains = []
+  @trains = {}
   
   class << self
     attr_reader :trains
 
     def find(number)
-      trains.detect{|train| train.number.eql?(number) }
+      trains[number]
     end      
   end
 
@@ -21,7 +21,7 @@ class Train
     @number = number
     @carriages = []
     @speed = 0
-    self.class.trains << self
+    self.class.trains[number] = self
     register_instance
   end
 

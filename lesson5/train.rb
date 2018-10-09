@@ -7,16 +7,16 @@ class Train
 
   attr_reader :number, :speed, :current_station, :carriages
 
-  @trains = {}
+  @@trains = {}
   
-  class << self
-    attr_reader :trains
-
-    def find(number)
-      trains[number]
-    end      
+  def self.trains
+    @@trains
   end
 
+  def self.find(number)
+    trains[number]
+  end      
+  
   def initialize(number)
     @number = number
     @carriages = []

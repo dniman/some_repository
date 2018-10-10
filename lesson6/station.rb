@@ -42,8 +42,10 @@ class Station
   end
 
   def valid?
-    return false if name.empty?
+    validate!
     true
+  rescue
+    false
   end
 
   protected :validate!

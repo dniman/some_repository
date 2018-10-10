@@ -92,9 +92,10 @@ class Train
   end
 
   def valid?
-    return false if number.empty?
-    return false unless number =~ NUMBER_FORMAT
+    validate!
     true
+  rescue
+    false
   end
 
   protected :validate!

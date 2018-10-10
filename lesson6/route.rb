@@ -41,9 +41,10 @@ class Route
   end
 
   def valid?
-    return false unless initial_station
-    return false unless finite_station
+    validate!
     true
+  rescue
+    false
   end
 
   private

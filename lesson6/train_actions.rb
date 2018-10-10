@@ -8,6 +8,9 @@ module TrainActions
         print "Введите тип поезда (1-пассажирский/2-грузовой): "
         type = gets.chomp.to_i
         App.create_train(number, type)
+        puts "Добавлен поезд  #{App.trains.last.number} - #{App.trains.last.type}"
+        print "Нажмите Enter для продолжения..."
+        gets  
       rescue StandardError => e
         puts e.message
         retry

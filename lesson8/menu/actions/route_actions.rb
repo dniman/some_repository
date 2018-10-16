@@ -8,10 +8,8 @@ class Menu
     module RouteActions
       def create_route_action
         lambda do
-          if App.stations.length < 2
-            raise 'Список доступных станций: '\
-            "#{App.stations.length}"
-          end
+          raise "Список доступных станций: #{App.stations.length}" if App.stations.length < 2
+
           initial_num = select_initial_station_from_list
           available_stations = App.stations - [App.stations[initial_num - 1]]
           finite_num = select_finite_station_from_list(available_stations,
@@ -35,17 +33,13 @@ class Menu
 
       def add_intermediate_station_to_route_action
         lambda do
-          if App.routes.empty?
-            raise 'Список доступных маршрутов: '\
-            "#{App.routes.length}"
-          end
+          raise "Список доступных маршрутов: #{App.routes.length}" if App.routes.empty?
+
           route_num = select_route_from_list
           route = App.routes[route_num - 1]
           available_stations = App.stations - route.stations
-          if available_stations.empty?
-            raise 'Список доступных станций: '\
-            "#{available_stations.length}"
-          end
+          raise "Список доступных станций: #{available_stations.length}" if available_stations.empty?
+
           num = select_intermediate_station_from_list(available_stations)
           station = available_stations[num - 1]
           App.routes[route_num - 1].add_station(station)
@@ -54,23 +48,15 @@ class Menu
 
       def delete_intermediate_station_from_route_action
         lambda do
-          if App.routes.empty?
-            raise 'Список доступных маршрутов: '\
-            "#{App.routes.length}"
-          end
+          raise "Список доступных маршрутов: #{App.routes.length}" if App.routes.empty?
 
           route_num = select_route_from_list
           route = App.routes[route_num - 1]
-
           available_stations = route.stations -
                                [route.stations.first, route.stations.last]
-          if available_stations.empty?
-            raise 'Список доступных станций: '\
-            "#{available_stations.length}"
-          end
+          raise "Список доступных станций: #{available_stations.length}" if available_stations.empty?
 
           num = select_intermediate_station_from_list(available_stations)
-
           station = available_stations[num - 1]
           App.routes[route_num - 1].delete_station(station)
         end

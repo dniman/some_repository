@@ -25,12 +25,9 @@ class Menu
     end
 
     def tap_routes_menu_sections(sections)
-      sections.concat(['  1. Создать маршрут',
-                       '  2. Просмотреть список доступных станций',
-                       '  3. Просмотреть список маршрутов',
-                       '  4. Добавить промежуточную станцию в маршрут',
-                       '  5. Удалить промежуточную станцию с маршрута',
-                       '  6. Вернуться в предыдущее меню'])
+      File.readlines('./routes_menu.txt').each do |line|
+        sections << "  #{line.strip}"
+      end
     end
 
     def tap_routes_menu_actions(actions)

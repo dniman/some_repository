@@ -31,10 +31,9 @@ class Menu
     end
 
     def tap_main_menu_sections(sections)
-      sections.concat(['  1. Раздел станции',
-                       '  2. Раздел поезда',
-                       '  3. Раздел маршруты',
-                       '  4. Выйти'])
+      File.readlines('./main_menu.txt').each do |line|
+        sections << "  #{line.strip}"
+      end
     end
 
     def tap_main_menu_actions(actions)

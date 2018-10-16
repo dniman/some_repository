@@ -6,24 +6,25 @@
 module InstanceCounter
   def self.included(base)
     base.instance_eval do
-      include InstanceMethods
-
-      @@instances = 0
-      def self.instances
-        @@instances
-      end
-
-      def self.instances=(val)
-        @@instances = val
-      end
+      extend ClassMethods
     end
   end
 
-  module InstanceMethods
-    private
+  private
 
-    def register_instance
-      self.class.instances += 1
+  def register_instance
+    self.class.instances += 1
+  end
+
+  module ClassMethods
+    @@instances = 0
+
+    def instances
+      @@instances
+    end
+
+    def instances=(val)
+      @@instances = val
     end
   end
 end

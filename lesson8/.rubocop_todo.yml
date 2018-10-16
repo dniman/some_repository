@@ -1,0 +1,37 @@
+# Offense count: 40
+# Configuration parameters: AllowedChars.
+Style/AsciiComments:
+  Exclude:
+    - 'app.rb'
+    - 'cargo_carriage.rb'
+    - 'cargo_train.rb'
+    - 'menu.rb'
+    - 'menu/actions/route_actions.rb'
+    - 'menu/main_menu.rb'
+    - 'menu/stations_menu.rb'
+    - 'menu/trains_menu.rb'
+    - 'passenger_carriage.rb'
+    - 'passenger_train.rb'
+    - 'route.rb'
+    - 'station.rb'
+    - 'train.rb'
+
+# Offense count: 6
+Style/ClassVars:
+  Exclude:
+    - 'app.rb'
+    - 'instance_counter.rb'
+    - 'train.rb'
+
+# Offense count: 6
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'instance_counter.rb'
+    - 'menu/actions/common_actions.rb'
+    - 'menu/actions/main_menu_actions.rb'
+    - 'menu/actions/station_actions.rb'
+    - 'menu/actions/train_actions.rb'
+    - 'menu/routes_menu.rb'
+

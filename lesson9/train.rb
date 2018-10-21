@@ -85,11 +85,6 @@ class Train
     route.stations[previous_index]
   end
 
-  def type
-    return 'пассажирский' if is_a?(PassengerTrain)
-    return 'грузовой' if is_a?(CargoTrain)
-  end
-
   def each_carriage
     carriages.each do |carriage|
       yield(carriage) if block_given?

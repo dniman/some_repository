@@ -15,7 +15,7 @@ module Accessors
         define_method(name) { send(name_history).last }
         define_method("#{name}=".to_sym) { |v| send(name_history) << v }
         define_method("#{name}_history".to_sym) do
-          instance_variable_set(var_name, []) if instance_variable_get(var_name).nil?
+          instance_variable_set(var_name, []) unless instance_variable_get(var_name)
           instance_variable_get(var_name)
         end
         instance_variable_get(var_name)

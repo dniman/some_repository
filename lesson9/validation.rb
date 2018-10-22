@@ -21,31 +21,41 @@ module Validation
     rescue StandardError
       false
     end
+
+    def validate_presence
+      params = self.class.validations.select { |i| i[:validation_type] == :presence }
+      params.each do |param|
+        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
+        raise 'Значение не может быть пустым!' if attr.nil? || (attr.is_a?(String) && attr.empty?)
+      end
+    end
+
+    def validate_format
+      params = self.class.validations.select { |i| i[:validation_type] == :format }
+      params.each do |param|
+        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
+        raise 'Значение не соответствует формату!' unless attr =~ param[:args][0]
+      end
+    end
+
+    def validate_type
+      params = self.class.validations.select { |i| i[:validation_type] == :type }
+      params.each do |param|
+        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
+        raise ' Тип значения не соответствует заданному классу!' unless attr.is_a?(param[:args][0])
+      end
+    end
   end
 
   # class methods
   module ClassMethods
-    def validate(name, val_type, value = nil)
-      if val_type == :presence
-        define_method(:validate_presence) do
-          attr = instance_variable_get("@#{name}".to_sym)
-          raise 'Значение не может быть пустым!' if attr.nil? || (attr.is_a?(String) && attr.empty?)
-        end
-      end
+    def validate(name, type, *args)
+      @validations ||= []
+      @validations << { attr_name: name, validation_type: type, args: args }
+    end
 
-      if val_type == :format
-        define_method(:validate_format) do
-          attr = instance_variable_get("@#{name}".to_sym)
-          raise 'Значение не соответствует формату!' unless attr =~ value
-        end
-      end
-
-      if val_type == :type
-        define_method(:validate_type) do
-          attr = instance_variable_get("@#{name}".to_sym)
-          raise ' Тип значения не соответствует заданному классу!' unless attr.is_a?(value)
-        end
-      end
+    def validations
+      @validations
     end
   end
 end

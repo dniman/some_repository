@@ -10,8 +10,9 @@ module Validation
   # instance methods
   module InstanceMethods
     def validate!
-      methods.select { |m| m.to_s =~ /validate_/ }.each do |method|
-        send(method.to_sym)
+      self.class.validations.each do |validation|
+        attr = instance_variable_get("@#{validation[:attr_name]}".to_sym)
+        send("validate_#{validation[:validation_type]}", attr, validation[:args])
       end
     end
 
@@ -22,28 +23,16 @@ module Validation
       false
     end
 
-    def validate_presence
-      params = self.class.validations.select { |i| i[:validation_type] == :presence }
-      params.each do |param|
-        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
-        raise 'Значение не может быть пустым!' if attr.nil? || (attr.is_a?(String) && attr.empty?)
-      end
+    def validate_presence(attr, args)
+      raise 'Значение не может быть пустым!' if attr.nil? || (attr.is_a?(String) && attr.empty?)
     end
 
-    def validate_format
-      params = self.class.validations.select { |i| i[:validation_type] == :format }
-      params.each do |param|
-        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
-        raise 'Значение не соответствует формату!' unless attr =~ param[:args][0]
-      end
+    def validate_format(attr, args)
+      raise 'Значение не соответствует формату!' unless attr =~ args[0]
     end
 
-    def validate_type
-      params = self.class.validations.select { |i| i[:validation_type] == :type }
-      params.each do |param|
-        attr = instance_variable_get("@#{param[:attr_name]}".to_sym)
-        raise ' Тип значения не соответствует заданному классу!' unless attr.is_a?(param[:args][0])
-      end
+    def validate_type(attr, args)
+      raise ' Тип значения не соответствует заданному классу!' unless attr.is_a?(args[0])
     end
   end
 

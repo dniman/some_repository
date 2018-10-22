@@ -38,13 +38,11 @@ module Validation
 
   # class methods
   module ClassMethods
+    attr_reader :validations
+
     def validate(name, type, *args)
       @validations ||= []
       @validations << { attr_name: name, validation_type: type, args: args }
-    end
-
-    def validations
-      @validations
     end
   end
 end
